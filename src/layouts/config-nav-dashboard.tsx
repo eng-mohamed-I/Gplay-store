@@ -22,11 +22,7 @@ export const navData = [
     title: 'Product',
     path: '/products',
     icon: icon('ic-cart'),
-    info: (
-      <Label color="error" variant="inverted">
-        +3
-      </Label>
-    ),
+    info: <Label color="error" variant="inverted"></Label>,
   },
   {
     title: 'Blog',
@@ -37,10 +33,5 @@ export const navData = [
     title: 'Sign in',
     path: '/sign-in',
     icon: icon('ic-lock'),
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: icon('ic-disabled'),
   },
 ];
