@@ -1,1 +1,1 @@
-## Gplay Acount-Store
+## Gplay Account-Store
