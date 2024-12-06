@@ -22,7 +22,7 @@ export const navData = [
     title: 'Product',
     path: '/products',
     icon: icon('ic-cart'),
-    info: <Label color="error" variant="inverted"></Label>,
+    info: <Label color="error" variant="inverted" />,
   },
   {
     title: 'Blog',
