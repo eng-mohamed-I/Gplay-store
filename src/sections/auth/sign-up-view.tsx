@@ -15,35 +15,41 @@ import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export function SignInView() {
+export function SignUpView() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showRePassword, setShowRePassword] = useState(false);
 
-  const handleSignIn = useCallback(() => {
-    router.push('/');
+  const handleSignUp = useCallback(() => {
+    router.push('/sign-in');
   }, [router]);
 
   const renderForm = (
     <Box display="flex" flexDirection="column" alignItems="flex-end">
       <TextField
         fullWidth
-        name="email"
-        label="Email address"
-        defaultValue="hello@gmail.com"
+        name="name"
+        label="Full name"
+        placeholder="Full name"
         InputLabelProps={{ shrink: true }}
         sx={{ mb: 3 }}
       />
 
-      <Link variant="body2" color="inherit" sx={{ mb: 1.5 }}>
-        Forgot password?
-      </Link>
+      <TextField
+        fullWidth
+        name="email"
+        label="Email address"
+        placeholder="Email address"
+        InputLabelProps={{ shrink: true }}
+        sx={{ mb: 3 }}
+      />
 
       <TextField
         fullWidth
         name="password"
         label="Password"
-        defaultValue="@demo1234"
+        placeholder="Password"
         InputLabelProps={{ shrink: true }}
         type={showPassword ? 'text' : 'password'}
         InputProps={{
@@ -58,15 +64,34 @@ export function SignInView() {
         sx={{ mb: 3 }}
       />
 
+      <TextField
+        fullWidth
+        name="Confirm password"
+        label="Confirm password"
+        placeholder="Confirm password"
+        InputLabelProps={{ shrink: true }}
+        type={showRePassword ? 'text' : 'password'}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={() => setShowRePassword(!showRePassword)} edge="end">
+                <Iconify icon={showRePassword ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        sx={{ mb: 3 }}
+      />
+
       <LoadingButton
         fullWidth
         size="large"
         type="submit"
         color="inherit"
         variant="contained"
-        onClick={handleSignIn}
+        onClick={handleSignUp}
       >
-        Sign in
+        Sign up
       </LoadingButton>
     </Box>
   );
@@ -74,28 +99,28 @@ export function SignInView() {
   return (
     <>
       <Box gap={1.5} display="flex" flexDirection="column" alignItems="center" sx={{ mb: 5 }}>
-        <Typography variant="h5">Sign in</Typography>
-        <Typography variant="body2" color="text.secondary">
-          Don’t have an account?
-          <Link href="/sign-up" variant="subtitle2" sx={{ ml: 0.5 }}>
-            Get started
-          </Link>
-        </Typography>
+        <Typography variant="h5">Create a new account</Typography>
       </Box>
 
       {renderForm}
 
       <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}>
-        <Typography
+        {/* <Typography
           variant="overline"
           sx={{ color: 'text.secondary', fontWeight: 'fontWeightMedium' }}
         >
           OR
-        </Typography>
+        </Typography> */}
       </Divider>
 
       <Box gap={1} display="flex" justifyContent="center">
-        <IconButton color="inherit">
+        <Typography variant="body2" color="text.secondary">
+          Do You have an account?
+          <Link href="/sign-in" variant="subtitle2" sx={{ ml: 0.5 }}>
+            Sign in
+          </Link>
+        </Typography>
+        {/* <IconButton color="inherit">
           <Iconify icon="logos:google-icon" />
         </IconButton>
         <IconButton color="inherit">
@@ -103,7 +128,7 @@ export function SignInView() {
         </IconButton>
         <IconButton color="inherit">
           <Iconify icon="ri:twitter-x-fill" />
-        </IconButton>
+        </IconButton> */}
       </Box>
     </>
   );
