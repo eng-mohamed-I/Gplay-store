@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -12,6 +12,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { useRouter } from 'src/routes/hooks';
 
 import { Iconify } from 'src/components/iconify';
+import { FormControl, SelectChangeEvent } from '@mui/material';
+import { InputLabel } from '@mui/material';
+import { Select } from '@mui/material';
+import { MenuItem } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -20,6 +24,11 @@ export function SignUpView() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
+  const [role, setRole] = React.useState('');
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setRole(event.target.value);
+  };
 
   const handleSignUp = useCallback(() => {
     router.push('/sign-in');
@@ -44,6 +53,27 @@ export function SignUpView() {
         InputLabelProps={{ shrink: true }}
         sx={{ mb: 3 }}
       />
+
+      <FormControl fullWidth sx={{ mb: 3 }}>
+        <InputLabel id="demo-simple-select-autowidth-label">Looking for</InputLabel>
+        <Select
+          fullWidth
+          labelId="demo-simple-select-autowidth-label"
+          id="demo-simple-select-autowidth"
+          value={role}
+          onChange={handleChange}
+          autoWidth
+          label="Looking for"
+        >
+          <MenuItem value="">
+            <em>what are you looking for</em>
+          </MenuItem>
+          <MenuItem value={'buyer'}>buyer</MenuItem>
+          <MenuItem value={'seller'}>seller</MenuItem>
+          <MenuItem value={'broker'}>broker </MenuItem>
+          <MenuItem value={'resller'}>resller </MenuItem>
+        </Select>
+      </FormControl>
 
       <TextField
         fullWidth

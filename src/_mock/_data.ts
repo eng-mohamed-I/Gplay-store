@@ -187,3 +187,35 @@ export const _notifications = [
     isUnRead: false,
   },
 ];
+
+// ----------------------------------------------------------------------
+
+export const accounts = [
+  {
+    id: 133,
+    user_id: 0o00,
+    account_id: 1244,
+    account_type: 'credit',
+    balance: 500,
+    created_at: 2024,
+    updated_at: 2025,
+  },
+  {
+    id: 133,
+    user_id: 0o00,
+    account_id: 1244,
+    account_type: 'credit',
+    balance: 500,
+    created_at: 2024,
+    updated_at: 2025,
+  },
+  {
+    id: 133,
+    user_id: 0o00,
+    account_id: 1244,
+    account_type: 'credit',
+    balance: 500,
+    created_at: 2024,
+    updated_at: 2025,
+  },
+];
