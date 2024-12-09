@@ -14,6 +14,12 @@ export const navData = [
     icon: icon('ic-analytics'),
   },
   {
+    title: 'Product',
+    path: '/products',
+    icon: icon('ic-cart'),
+    info: <Label color="error" variant="inverted" />,
+  },
+  {
     title: 'User',
     path: '/user',
     icon: icon('ic-user'),
@@ -24,10 +30,9 @@ export const navData = [
     icon: icon('ic-user'),
   },
   {
-    title: 'Product',
-    path: '/products',
-    icon: icon('ic-cart'),
-    info: <Label color="error" variant="inverted" />,
+    title: 'Orders',
+    path: '/orders',
+    icon: icon('ic-user'),
   },
   {
     title: 'Blog',
