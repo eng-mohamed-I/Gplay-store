@@ -1,4 +1,4 @@
-import type { UserProps } from './account-table-row';
+import { AccountProps } from './account-table-row';
 
 // ----------------------------------------------------------------------
 
@@ -53,7 +53,7 @@ export function getComparator<Key extends keyof any>(
 // ----------------------------------------------------------------------
 
 type ApplyFilterProps = {
-  inputData: UserProps[];
+  inputData: AccountProps[];
   filterName: string;
   comparator: (a: any, b: any) => number;
 };

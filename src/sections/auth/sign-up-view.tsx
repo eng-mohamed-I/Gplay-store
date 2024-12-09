@@ -12,10 +12,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { useRouter } from 'src/routes/hooks';
 
 import { Iconify } from 'src/components/iconify';
-import { FormControl, SelectChangeEvent } from '@mui/material';
-import { InputLabel } from '@mui/material';
-import { Select } from '@mui/material';
-import { MenuItem } from '@mui/material';
+import { FormControl, SelectChangeEvent, InputLabel, Select, MenuItem } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -68,10 +65,10 @@ export function SignUpView() {
           <MenuItem value="">
             <em>what are you looking for</em>
           </MenuItem>
-          <MenuItem value={'buyer'}>buyer</MenuItem>
-          <MenuItem value={'seller'}>seller</MenuItem>
-          <MenuItem value={'broker'}>broker </MenuItem>
-          <MenuItem value={'resller'}>resller </MenuItem>
+          <MenuItem value="buyer">buyer</MenuItem>
+          <MenuItem value="seller">seller</MenuItem>
+          <MenuItem value="broker">broker </MenuItem>
+          <MenuItem value="resller">resller </MenuItem>
         </Select>
       </FormControl>
 
