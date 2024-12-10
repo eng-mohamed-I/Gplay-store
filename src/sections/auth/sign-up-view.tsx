@@ -13,29 +13,72 @@ import { useRouter } from 'src/routes/hooks';
 
 import { Iconify } from 'src/components/iconify';
 import { FormControl, SelectChangeEvent, InputLabel, Select, MenuItem } from '@mui/material';
-
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { signUpSchema } from 'src/validators/validation-schema';
 // ----------------------------------------------------------------------
+
+export type SignUpProps = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
 export function SignUpView() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
-  const [role, setRole] = React.useState('');
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setRole(event.target.value);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm({
+    resolver: yupResolver(signUpSchema),
+    defaultValues: {
+      role: 'buyer',
+    },
+  });
+
+  const selectedRole = watch('role');
+
+  const handleRoleChange = (event: SelectChangeEvent) => {
+    setValue('role', event.target.value);
+    console.log(event.target.value);
   };
 
-  const handleSignUp = useCallback(() => {
-    router.push('/sign-in');
-  }, [router]);
+  const handleSignUp = async (data: SignUpProps) => {
+    try {
+      console.log('Form data:', data);
+      // api call
+    } catch (error) {
+      console.error('Sign-up failed:', error);
+    }
+  };
+
+  // const handleSignUp = useCallback(() => {
+  //   // router.push('/sign-in');
+  //   console.log(name, email, password, role);
+  // });
 
   const renderForm = (
-    <Box display="flex" flexDirection="column" alignItems="flex-end">
+    <Box
+      component="form"
+      onSubmit={handleSubmit(handleSignUp)}
+      display="flex"
+      flexDirection="column"
+      alignItems="flex-end"
+    >
       <TextField
         fullWidth
+        {...register('name')}
         name="name"
+        error={!!errors.name}
+        helperText={errors.name?.message}
         label="Full name"
         placeholder="Full name"
         InputLabelProps={{ shrink: true }}
@@ -44,37 +87,41 @@ export function SignUpView() {
 
       <TextField
         fullWidth
+        {...register('email')}
         name="email"
+        error={!!errors.email}
+        helperText={errors.email?.message}
         label="Email address"
         placeholder="Email address"
         InputLabelProps={{ shrink: true }}
         sx={{ mb: 3 }}
       />
 
-      <FormControl fullWidth sx={{ mb: 3 }}>
-        <InputLabel id="demo-simple-select-autowidth-label">Looking for</InputLabel>
+      <FormControl fullWidth sx={{ mb: 3 }} error={!!errors.role}>
+        <InputLabel id="role-label">Looking for</InputLabel>
         <Select
-          fullWidth
-          labelId="demo-simple-select-autowidth-label"
-          id="demo-simple-select-autowidth"
-          value={role}
-          onChange={handleChange}
-          autoWidth
+          value={selectedRole}
+          onChange={handleRoleChange}
+          labelId="role-label"
+          id="role"
           label="Looking for"
         >
-          <MenuItem value="">
-            <em>what are you looking for</em>
-          </MenuItem>
-          <MenuItem value="buyer">buyer</MenuItem>
-          <MenuItem value="seller">seller</MenuItem>
-          <MenuItem value="broker">broker </MenuItem>
-          <MenuItem value="resller">resller </MenuItem>
+          <MenuItem value="buyer">Buy account</MenuItem>
+          <MenuItem value="seller">Sell account</MenuItem>
+          <MenuItem value="broker">Be a broker</MenuItem>
+          <MenuItem value="resller">Be a reseller</MenuItem>
         </Select>
+        <Typography variant="caption" color="error">
+          {errors.role?.message}
+        </Typography>
       </FormControl>
 
       <TextField
         fullWidth
+        {...register('password')}
         name="password"
+        error={!!errors.password}
+        helperText={errors.password?.message}
         label="Password"
         placeholder="Password"
         InputLabelProps={{ shrink: true }}
@@ -93,7 +140,10 @@ export function SignUpView() {
 
       <TextField
         fullWidth
-        name="Confirm password"
+        {...register('confirmPassword')}
+        name="confirmPassword"
+        error={!!errors.confirmPassword}
+        helperText={errors.confirmPassword?.message}
         label="Confirm password"
         placeholder="Confirm password"
         InputLabelProps={{ shrink: true }}
@@ -110,14 +160,7 @@ export function SignUpView() {
         sx={{ mb: 3 }}
       />
 
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        color="inherit"
-        variant="contained"
-        onClick={handleSignUp}
-      >
+      <LoadingButton fullWidth size="large" type="submit" color="inherit" variant="contained">
         Sign up
       </LoadingButton>
     </Box>

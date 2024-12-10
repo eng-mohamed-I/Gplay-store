@@ -80,10 +80,10 @@ export function OrderView() {
                   )
                 }
                 headLabel={[
-                  { id: 'name', label: 'Name' },
-                  { id: 'user', label: 'User' },
-                  { id: 'type', label: 'Type' },
-                  { id: 'balance', label: 'Balance', align: 'center' },
+                  { id: 'account', label: 'Account' },
+                  { id: 'buyer', label: 'Buyer' },
+                  { id: 'seller', label: 'Seller' },
+                  { id: 'broker', label: 'Broker', align: 'center' },
                   { id: 'status', label: 'Status' },
                   { id: '' },
                 ]}
