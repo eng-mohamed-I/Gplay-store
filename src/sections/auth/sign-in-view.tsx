@@ -12,25 +12,52 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { useRouter } from 'src/routes/hooks';
 
 import { Iconify } from 'src/components/iconify';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { singInSchema } from 'src/validators/validation-schema';
 
 // ----------------------------------------------------------------------
+
+type SignInProps = {
+  email: string;
+  password: string;
+};
 
 export function SignInView() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSignIn = useCallback(() => {
-    router.push('/');
-  }, [router]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(singInSchema),
+  });
+
+  const handleSignIn = (data: SignInProps) => {
+    console.log('Form data', data);
+  };
+
+  // const handleSignIn = useCallback(() => {
+  //   // router.push('/');
+  // }, [router]);
 
   const renderForm = (
-    <Box display="flex" flexDirection="column" alignItems="flex-end">
+    <Box
+      component="form"
+      onSubmit={handleSubmit(handleSignIn)}
+      display="flex"
+      flexDirection="column"
+      alignItems="flex-end"
+    >
       <TextField
         fullWidth
-        name="email"
+        {...register('email')}
+        error={!!errors.email}
+        helperText={errors.email?.message}
         label="Email address"
-        defaultValue="hello@gmail.com"
         InputLabelProps={{ shrink: true }}
         sx={{ mb: 3 }}
       />
@@ -41,9 +68,10 @@ export function SignInView() {
 
       <TextField
         fullWidth
-        name="password"
+        {...register('password')}
+        error={!!errors.password}
+        helperText={errors.password?.message}
         label="Password"
-        defaultValue="@demo1234"
         InputLabelProps={{ shrink: true }}
         type={showPassword ? 'text' : 'password'}
         InputProps={{
@@ -58,14 +86,7 @@ export function SignInView() {
         sx={{ mb: 3 }}
       />
 
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        color="inherit"
-        variant="contained"
-        onClick={handleSignIn}
-      >
+      <LoadingButton fullWidth size="large" type="submit" color="inherit" variant="contained">
         Sign in
       </LoadingButton>
     </Box>
