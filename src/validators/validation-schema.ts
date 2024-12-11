@@ -5,12 +5,12 @@ export const signUpSchema = yup.object().shape({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   password: yup
     .string()
-    .min(8, 'Password must be at least 8 characters')
-    .required('Password is required'),
-  confirmPassword: yup
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters'),
+  password_confirmation: yup
     .string()
-    .oneOf([yup.ref('password')], 'Passwords must match')
-    .required('Confirm password is required'),
+    .required('Confirm password is required')
+    .oneOf([yup.ref('password')], 'Passwords must match'),
   role: yup.string().required('Please select a role'),
 });
 

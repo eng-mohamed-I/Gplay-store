@@ -1,21 +1,35 @@
-// import apiClient from '../api-client';
+import apiClient from '../api-client';
+
+export type RegisterData = {
+  name: string;
+  email: string;
+  role: string;
+  password: string;
+  password_confirmation: string;
+};
 
 // type LoginResponse = {};
 
-// type RegisterResponse = {};
+export type RegisterResponse =
+  | {
+      user: {
+        id: number;
+        name: string;
+        email: string;
+        facebook: string;
+        whatsapp: string;
+        phone: string;
+        website: string;
+      };
+      token: string;
+    }
+  | { error: string };
 
-// // Sing In
+// Sing In
 // export const signIn = (email: string, password: string): Promise<LoginResponse> => {
 //   return apiClient.post('/api/', { email, password });
 // };
 
-// // Sign Up
-// export const signUp = (userData: {
-//   email: string;
-//   password: string;
-//   confirmPassword: string;
-//   name: string;
-//   role: string;
-// }): Promise<RegisterResponse> => {
-//   return apiClient.post('/api/', userData);
-// };
+// Sign Up
+export const signUp = (userData: RegisterData): Promise<RegisterResponse> =>
+  apiClient.post('/register', userData);

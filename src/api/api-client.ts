@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 // Configure
 const apiClient: AxiosInstance = axios.create({
-  baseURL: '', // Base API URL
+  baseURL: 'https://api.royalcar.taxi/api', // Base API URL
   headers: {
     'Content-Type': 'application/json',
   },

@@ -12,17 +12,20 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { useRouter } from 'src/routes/hooks';
 
 import { Iconify } from 'src/components/iconify';
-import { FormControl, SelectChangeEvent, InputLabel, Select, MenuItem } from '@mui/material';
+import { FormControl, SelectChangeEvent, InputLabel, Select, MenuItem, Alert } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signUpSchema } from 'src/validators/validation-schema';
+import { handleSignUpService } from 'src/services/auth-services';
+import { getErrorMessages } from 'src/utils/get-errors';
 // ----------------------------------------------------------------------
 
 export type SignUpProps = {
   name: string;
   email: string;
+  role: string;
   password: string;
-  confirmPassword: string;
+  password_confirmation: string;
 };
 
 export function SignUpView() {
@@ -30,6 +33,9 @@ export function SignUpView() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const {
     register,
@@ -48,15 +54,23 @@ export function SignUpView() {
 
   const handleRoleChange = (event: SelectChangeEvent) => {
     setValue('role', event.target.value);
-    console.log(event.target.value);
   };
 
   const handleSignUp = async (data: SignUpProps) => {
+    setLoading(true);
     try {
       console.log('Form data:', data);
       // api call
+      const response = await handleSignUpService(data);
+      setLoading(false);
+      setErrorMessage('');
+      setSuccessMessage('Register successfully');
     } catch (error) {
-      console.error('Sign-up failed:', error);
+      setLoading(false);
+      setSuccessMessage('');
+      setErrorMessage(getErrorMessages(error));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,6 +87,18 @@ export function SignUpView() {
       flexDirection="column"
       alignItems="flex-end"
     >
+      {errorMessage ? (
+        <Alert sx={{ mb: 1 }} severity="error">
+          {errorMessage}
+        </Alert>
+      ) : (
+        successMessage && (
+          <Alert sx={{ mb: 1 }} severity="success">
+            {successMessage}
+          </Alert>
+        )
+      )}
+
       <TextField
         fullWidth
         {...register('name')}
@@ -140,10 +166,10 @@ export function SignUpView() {
 
       <TextField
         fullWidth
-        {...register('confirmPassword')}
-        name="confirmPassword"
-        error={!!errors.confirmPassword}
-        helperText={errors.confirmPassword?.message}
+        {...register('password_confirmation')}
+        name="password_confirmation"
+        error={!!errors.password_confirmation}
+        helperText={errors.password_confirmation?.message}
         label="Confirm password"
         placeholder="Confirm password"
         InputLabelProps={{ shrink: true }}
@@ -160,7 +186,14 @@ export function SignUpView() {
         sx={{ mb: 3 }}
       />
 
-      <LoadingButton fullWidth size="large" type="submit" color="inherit" variant="contained">
+      <LoadingButton
+        loading={loading}
+        fullWidth
+        size="large"
+        type="submit"
+        color="inherit"
+        variant="contained"
+      >
         Sign up
       </LoadingButton>
     </Box>
