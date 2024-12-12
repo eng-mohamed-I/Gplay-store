@@ -1,5 +1,9 @@
 import apiClient from '../api-client';
 
+export type RoleResponse = {
+  role: string;
+};
+
 export type RegisterData = {
   name: string;
   email: string;
@@ -20,6 +24,8 @@ export type RegisterResponse =
         whatsapp: string;
         phone: string;
         website: string;
+        role: string;
+        created_at: string;
       };
       token: string;
     }
