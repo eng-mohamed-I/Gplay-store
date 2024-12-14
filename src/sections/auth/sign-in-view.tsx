@@ -15,6 +15,7 @@ import { Iconify } from 'src/components/iconify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { singInSchema } from 'src/validators/validation-schema';
+import { handleSignInService } from 'src/services/auth-services';
 
 // ----------------------------------------------------------------------
 
@@ -27,6 +28,9 @@ export function SignInView() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const {
     register,
@@ -36,8 +40,19 @@ export function SignInView() {
     resolver: yupResolver(singInSchema),
   });
 
-  const handleSignIn = (data: SignInProps) => {
-    console.log('Form data', data);
+  const handleSignIn = async (data: SignInProps) => {
+    setLoading(true);
+    try {
+      console.log('Form data', data);
+      const response = await handleSignInService(data);
+      setLoading(false);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // const handleSignIn = useCallback(() => {
@@ -86,7 +101,14 @@ export function SignInView() {
         sx={{ mb: 3 }}
       />
 
-      <LoadingButton fullWidth size="large" type="submit" color="inherit" variant="contained">
+      <LoadingButton
+        loading={loading}
+        fullWidth
+        size="large"
+        type="submit"
+        color="inherit"
+        variant="contained"
+      >
         Sign in
       </LoadingButton>
     </Box>
@@ -106,7 +128,7 @@ export function SignInView() {
 
       {renderForm}
 
-      <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}>
+      {/* <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}>
         <Typography
           variant="overline"
           sx={{ color: 'text.secondary', fontWeight: 'fontWeightMedium' }}
@@ -125,7 +147,7 @@ export function SignInView() {
         <IconButton color="inherit">
           <Iconify icon="ri:twitter-x-fill" />
         </IconButton>
-      </Box>
+      </Box> */}
     </>
   );
 }
