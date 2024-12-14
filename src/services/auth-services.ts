@@ -44,7 +44,7 @@ export const handleGetRoleService = async (): Promise<RoleResponse> => {
   }
 };
 
-//handling logout
+// handling logout
 export const handleLogoutService = async (token: string): Promise<{ error: string } | null> => {
   try {
     const response = await logOut(token);

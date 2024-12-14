@@ -72,10 +72,9 @@ export const signUp = (userData: RegisterData): Promise<RegisterResponse> =>
 export const getRoles = (): Promise<RoleResponse> => apiClient.get('/roles');
 
 // Logout
-export const logOut = (token: string): Promise<{ error: string } | null> => {
-  return apiClient.post('/logout', null, {
+export const logOut = (token: string): Promise<{ error: string } | null> =>
+  apiClient.post('/logout', null, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-};
