@@ -1,11 +1,24 @@
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
 
-export type UserRole = 'admin' | 'user' | 'editor' | null;
+export type UserRole = 'admin' | 'buyer' | 'broker' | 'seller' | 'reseller' | null;
+
+export type UserProps = {
+  id: number;
+  name: string;
+  email: string;
+  facebook: string;
+  whatsapp: string;
+  phone: string;
+  website: string;
+  role: string;
+  created_at: string;
+};
 
 export interface AuthContextProps {
   isAuthenticated: boolean;
-  userRole: UserRole;
-  login: (role: UserRole) => void;
+  accessToken: string;
+  user: UserProps | null;
+  login: (userInfo: UserProps, token: string) => void;
   logout: () => void;
 }
 
@@ -13,26 +26,30 @@ export const AuthContext = createContext<AuthContextProps | undefined>(undefined
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState<UserRole>(null);
+  const [accessToken, setAccessToken] = useState('');
+  const [user, setUser] = useState<UserProps | null>(null);
 
-  const login = (role: UserRole) => {
+  const login = (token: any, userInfo: any) => {
     setIsAuthenticated(true);
-    setUserRole(role);
+    setAccessToken(token);
+    setUser(userInfo);
   };
 
   const logout = () => {
     setIsAuthenticated(false);
-    setUserRole(null);
+    setAccessToken('');
+    setUser(null);
   };
 
   const value = useMemo(
     () => ({
       isAuthenticated,
-      userRole,
+      accessToken,
+      user,
       login,
       logout,
     }),
-    [isAuthenticated, userRole]
+    [isAuthenticated, accessToken, user]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
